@@ -1,0 +1,85 @@
+--- Installing Spark ---
+
+1. First install Spark 2.4.5 prebuilt with Scala 2.12 and user provided Apache Hadoop from 
+  the Spark page
+  
+2. Extract the tar file to /opt:
+	sudo tar -xvf spark-3.0.0-preview-bin-hadoop3.2.tgz -C /opt/
+	
+3. remove the tar file and move to /opt
+	rm spark-2.4.5-bin-without-hadoop-scala-2.12.tgz && cd /opt
+
+4. rename the spark directory and change its permissions so that its owned by you
+	sudo mv spark-2.4.5-bin-without-hadoop-scala-2.12/ spark && sudo chown guru:guru -R spark
+
+5. define SPARK_HOME environment variable and add the correct Spark binaries to your PATH
+	echo "export SPARK_HOME=/opt/spark" >> ~/.bashrc
+	echo "export PATH=\$PATH:\$SPARK_HOME/bin" >> ~/.bashrc
+	
+6. (unsure if required - don't do this step) download scala using the following command:
+	sudo apt install scala
+  check if scala is working by issuing the following commands:
+  	scala -version	
+  		>>> Scala code runner version 2.11.12 -- Copyright 2002-2017, LAMP/EPFL
+  	
+  	scala 	>>> opens command prompt
+  	println("hello world")
+  	:q	>>>quits interactive
+	
+7. Provide Spark with the hadoop jars. To do this, first move to the directory /
+   opt/spark/conf and make a copy spark-env.sh using the following command:
+  	cp --copy-contents spark-env.sh.template spark-env.sh
+  	
+8. Next, add a line to the end of the file using the following command 
+  	echo "export SPARK_DIST_CLASSPATH=\$(hadoop classpath)" >> spark-env.sh
+   and check if spark works properly	
+ 	spark-shell --version
+
+9. If step 8 returns an error, open spark-env.sh in gedit, remove the line recently added
+   (the last line) and paste the following lines:
+   	export SPARK_DIST_CLASSPATH=$(/opt/hadoop/bin/hadoop classpath)
+   and check if spark works properly
+   	spark-shell --version
+   	
+10. NOTE: You will need to set a local ip in your spark-env.sh file, otherwise 
+    will give a similar error:
+    	2020-06-03 22:57:51,620 WARN util.Utils: Your hostname, guru-VirtualBox resolves to a loopback address: 127.0.1.1; using 10.0.2.15 instead (on interface enp0s3)
+	2020-06-03 22:57:51,621 WARN util.Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+	
+Add this line in your spark-env.sh (to any ip addr) and it will go away. (Need to learn more)
+	SPARK_LOCAL_IP="127.0.1.1"
+
+
+	
+Sources:
+1. Apache Spark download
+	https://spark.apache.org/downloads.html
+2. Main
+	https://dev.to/awwsmm/installing-and-running-hadoop-and-spark-on-ubuntu-18-393h
+
+3. Sourcing Hadoop binaries into Spark
+	http://spark.apache.org/docs/latest/hadoop-provided.html
+	https://stackoverflow.com/questions/35502046/what-is-pre-build-with-user-provided-hadoop-package
+
+4. copying files
+	man cp
+
+5. SPARK_LOCAL_IP
+	https://support.datastax.com/hc/en-us/articles/204675669-Spark-hostname-resolving-to-loopback-address-warning-in-spark-worker-logs
+
+Further Reading:
+1. To check the following lines instead of step 9.
+	http://apache-spark-user-list.1001560.n3.nabble.com/Running-Spark-on-user-provided-Hadoop-installation-td24076.html
+	
+	### Seems to work, but yet to test completely ###
+	### Weirdly, seems to work with just the first line alone ###	
+		SPARK_DIST_CLASSPATH=$(/opt/hadoop/bin/hadoop classpath)
+		export SPARK_DIST_CLASSPATH="$SPARK_DIST_CLASSPATH:/opt/hadoop/share/hadoop/tools/lib/*" 
+	### end ###
+	
+2. To find out if Scala is to be installed seperately as shown in step 6.
+	https://medium.com/@josemarcialportilla/installing-scala-and-spark-on-ubuntu-5665ee4b62b1
+	
+3. SPARK_LOCAL_IP - its significance, setting master and slave IPs
+	https://stackoverflow.com/questions/37190934/spark-cluster-master-ip-address-not-binding-to-floating-ip
+	 

@@ -1,0 +1,151 @@
+--- Comparing RDD, Dataframes, and Datasets ---
+
+
+Resilient Distributed Dataset (RDD)
+	It was the primary user facing API in Spark since inception. At the core, an RDD is 
+	an immutable distributer collection of elements of your data, partitioned across 
+	nodes in your cluster that can be operated in parallel with low level APPI that 
+	offers transformations and actions.
+
+When to use RDDs?
+	- you want low-level transformation and action and control on your dataset;
+	- Your data is unstructured #media streams, text streams
+	- you want to manipulate your data with functional programming constructs
+	  than domain specific expressions
+	- you don't care about imposing a schema (columnar format), while processing 
+	  or accessing data attributes by name or column
+	- you can forgo some optimisation and performance benfits available with DataFrames
+	   and DataSets for structured and semi-structured data.
+	   
+	RDD's are not deprecated Spark 2.0 onwards. Dataframes and dataSets are built upon 
+	RDDs and one can seamlessly move between the two.
+	
+Dataframes
+	Like an RDD, a DataFrame is an immutable distributed collection of data, but the data
+	is arranged into named columns (schema), like that of a table in a relaional database. 
+	This makes large data sets processing even easier, allowing engineers to impose 
+	structure onto the distributed collection of data.
+	It provides a domain specific language API to manipulate your distributed data.
+	
+	Spark 2.0 onwards, DataFrame APIs will merge with DataSets APIs unifying data
+	processing capabilites across libraries. With this, developers need to work with only 
+	one high level and type-safe API called Dataset. (fig 1.4)
+	
+Datasets
+	Starting in Spark 2.0, Dataset takes on two distinct APIs characteristics: a strongly 
+	typed API and an untyped API, as shown in the table below. 
+	Conceptually, consider DataFrame as an alias for a collection of generic 
+	objects Dataset[row], where a row is a generic untyped JVM object. Dataset, by 
+	contrast, is a collection of strongly-typed JVM objects, defined by a case class 
+	you define in Scala or a class in Java.
+	
+	Scala	- Dataset[T] && DataFrame (alias for Dataset[row])
+	Java	- Dataset[T]
+	Python	- DataFrame
+	R	- DataFrame
+	
+	Note: since Python and R have no compile-time type-safety, we only have untyped APIs, 
+	namely DataFrames.
+	
+Benefits of Dataset APIs
+	1. Static-typing and runtime type-safety
+		If you were to consider Spark SQL to be least restrictive and DataSets to 
+		be most restrictive on spectrum of static-typing and runtime safety, it would 
+		look similar to fig 1.5. Syntax errors involve invoking a function call not 
+		part of the API. Analysis errors include including a non-existing column name. 
+		Detection of these errors greatly reduce development time and costs.
+		
+	2. High level abstraction and custom view into structured and semi-structured data
+		DataFrames as a collection of DataSets[row] render a structured custom view 
+		into your semi-structured data. #JSON is a semi-structured format. Each JSON 
+		entry can be custom object with a Scala case class. Then the json can be read.
+		
+		Three things happen under the hood:
+			1. Spark reads the JSON, infers the schema and creates a collection of 
+			   dataframes.
+			2. At this point, spark converts your data in DataFrame = DataSet[row], 
+			   a collection of generic row object since it does not know the exact 
+			   type.
+			3. Now, Spark converts the DataSet[row] to dataSet[custom_object] 
+			   type-specific Scala JVM object, as dictated by the class 
+			   custom_object.
+		With dataset as a collection of dataset[elementType] types objects, you
+		seamlessly get bot compile-time safety and custom-view for strongly-typed 
+		JVM objects. And the resulting strongly typed Dataset[T] from above can be 
+		easily displayed or processesed with high-level methods.
+	
+	3. Ease of APIs with structure
+		Although structure limits what you can do in your Spark program, it makes it 
+		more readable by introducing simplicity in its flow. Moreover, you can do most 
+		of what you require using Dataset's high-level APIs in a much simpler manner, 
+		#agg, select, sum, avg, map, filter, and groupby operations by accesing a 
+		Datasets typed object's 'elementType than using RDD rows's datafields.
+	
+	4. Performance and optimisation
+		Along with all the above benfits, there are space and efficiency gains in 
+		using dataframes and dtasets APIs for two reasons.
+		
+		First, beacuase DataFrame and Dataset APIs are built on top of the Spark 
+		SQL engine, it uses Catalyst to generate an optimised logical and physial 
+		query plan. Across all language dataframe/dataset APIs, all relation type 
+		queries undergo the same code optimizer, providing the space and speed 
+		efficiency. Typed dataset is optimized for engineering tasks, whereas 
+		dataset[row] AKA datafram is even faster and suitable for interactive 
+		analysis.
+		Second, since Spark as a compiler uncerstands your Dataset type JVM object, 
+		it maps your specific JVM object to Tungsten's internal memory representation 
+		using encoders. As a result, Tungsten Encoders can efficiently serialise/
+		deserialise JVM objects as well as generate compact bytecode that can execute 
+		at superior speeds.
+
+When should I use dataFrames or DataSets?
+	- If you want rich semantics, high-level abstractions, and domain specific APIs
+	- If your processing demands high-level expressions, filters, maps, aggregation, 
+	  averages, sum, SQL queries, columnar accesses and use of lambda functions on 
+	  semi-structured data
+	- If you want higher degree of type-safety at compile time, want typed JVM objects, 
+	  take advn of Catalyt optimization, and benefits from Tungstens efficient code 
+	  generation
+	- Unification and simplificatio of APIs across Spark libraries
+	- R user -> dataframes
+	- Python user -> use dataframes and resort back to RDDs if you need more control
+	
+NOTE: You can always interoperate or convert from DataFrame and/or DataSet to an RDD by a 
+simple method call '.rdd'
+
+Summary
+	RDD - offers low level functionality and control
+	DataFrame/DataSet - custom views and structure, high-level and domain -specific 
+	operations, saves space and executes at superior speeds.
+		
+
+https://databricks.com/blog/2016/07/14/a-tale-of-three-apache-spark-apis-rdds-dataframes-and-datasets.html
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

@@ -1,0 +1,57 @@
+--- Git Commands ---
+
+Syntax:
+	git [command] [--flags] [arguments]
+
+
+
+Git configuration:
+  --First time setup
+	git config --global user.name <username>	//set username
+	git config --global user.email <user_email>	//set user_email
+	git config --global core.editor <path | name>	//set default editor
+
+  --View config
+	git config --list 				//lists config
+	git config --list --show-origin			//lists config with source_files
+
+Local Repository
+	Create a Local Repository:
+	- git init					//exec command in directory to initialize
+
+	View file Status in working tree and staging area
+	- git status					//shows file status
+	- git status [-s | --short]			//shows file status short version
+		LEGEND: [??=untracked | A=added | M=modified]
+
+	Stage Content
+	- git add [. | filename(s) | directory(s)]	//add file to staging area
+
+	Commit content
+	- git commit					//commits staged content and content from previous commit
+		NOTE: opens default text editor for setting commit message
+	- git commit -m "initial commit"		//commit with short message
+	View Commit History
+	- git log					//shows local repo commit history
+	- git log --pretty[=<format>]			//displays in format
+		<format> = oneline | short | medium | full | fuller | raw
+	- git log -n					//shows 'n' recent commits where 'n' is an integer
+
+Remote Repository
+	Create/Import a remote repository
+	- 'use github to create it'
+
+	Clone a remote repository
+	- git clone <url/to/projectname.git> [localprojectname]
+		NOTE: if localprojectname is input, directory created with that name, else remote repo projectname is used
+	
+	Add remote repo to local repo
+	- git remote add <alias> <url>			//adds remote repo url with alias to local repo (links local and remote repo)
+
+	Push commits to remote repo
+	- git push [-u] [<repository>] [<branch>]	//<repo> is URL or alias; <branch>, for example, master; -u to set upstream (git informs when branches are out of sync)
+	NOTE: without specifying any arguments, git will assume default values, if not the previous arguments used
+
+	Information on remote repo
+	- git remote [--verbose | -v]		
+	

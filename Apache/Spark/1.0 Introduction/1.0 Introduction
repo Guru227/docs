@@ -1,0 +1,116 @@
+Spark is a general-purpose distributed data processing engine.
+
+
+Distributed data/distributed computing: 
+	Where datasets get too big, or when new data comes in too
+	fast, it can become too much for a single computer to handle. This is where distributed 
+	computing comes in. Instead of processing it on one computer, these tasks can be divided 
+	between multiple computers that communicate with each other. Although beneficial, comes 
+	with its own set of challenges, viz., allocating processing tasks across the many 
+	computers andstructuring the processing. Spark is designed to deal with verly large 
+	datasets by processing them on a distributes computing system. Each computer in a 
+	distributed computing system is called a node, and the collection a cluster.
+
+Processing Engine/ Framework: 
+	A processing engine AKA a processing framework is responsible for performing the data 
+	processing tasks. Hadoop is open source software platform taht also deals with Big Data 
+	and distributed computing. Hadoop has a processing engine known as MapReduce and has its 
+	own particular way of optimising tasks to be processed on multiple nodes. One of sparks 
+	strengths is that it is a processing engine that can be used on its own, or used in pace 
+	of Hadopp MapReduce, taking advantage of the other features of hadoop.
+	
+General-Purpose:
+	Another advantage of Spark is how flexible it is, and how many appliaction domains it 
+	has. It supports Scala, Python, Java, R and SQL. It has a dedicated SQL module, it is 
+	able to process streamed daat in real-time, and it has both a machine learning library 
+	and graph computation engine built on top of it (fig 1.1).
+
+Read - 1.1 Understand the significance of Spark
+
+Distributed Computing terms:
+	1. Partitioned data
+		As processing happens on multiple nodes, the data is partitioned and optimised.
+		(1.2 Database terminologies: partitioning)
+	2. Fault Tolerance
+		In short, fault tolerance refers to a distributed system's ability to continue 
+		working properly even when a filure occurs. The way data is handled by spark 
+		allows spark to recover from failures.
+		(1.3 Fault Tolerance in Spark)
+	3. Lazy evaluation
+		Lazy evaluation has to do with how a code is compiled. Strict evaluation 
+		involves sequential evaluation of the code in the order it arises. A lazy 
+		compiler postpones evaluation until the result of a particular operation or 
+		function is required. In spark, this evaluation log of the things it will 
+		evenetually have to evaluate is called lineage graph, and whenever it prompted 
+		to return something, it performs evaluations according to it. This makes 
+		programs more efficient.
+		(1.4 Lazy Evaluation)
+		
+Spark Terms:
+	1. Resilent Distributed Dataset (RDD)
+		RDDs are the core building blocks of Spark. It is an immutable, partitioned 
+		collection of records. Which means it can hold values, tuples, or other objects, 
+		that these records are partitioned so as to be processed on a distributed 
+		system, and that once an RDD has been made, it is impossible to alter 
+		it (because of their lineage graphs).
+		
+		NOTE: RDD's do not have a Schema, in other words, do not have a columnar 
+		structure. Records are just recorded row-by-row, and are displayed similar to a 
+		list.
+		(Read 1.5 Comparing RDD, DataFrames, and DataSets) 
+	2. Spark Dataframes:
+		They have all the features of RDD but also have a schema. A data structure of 
+		choice for PySpark. 
+	3. Spark DataSets:
+		Similar to dataframes, but are strongly typed, meaning that the type is 
+		specified upon DataSet creation and is not inferred from the type of records 
+		stored in it. DataSets aren't used with Python because it is dynamically typed.
+	4. Transformations:
+		One of the things you can do to an RDD in Spark. Transformations create new RDDs
+		because RDDs are immutable so they can't be altered once created. Input - one 
+		RDD, Transormation - function on RDD, Output -  one or more RDDs. Using lazy 
+		evaluation here, Spark essentailly creates a chain of hypothetical RDDs that 
+		would result from those transformations and is evaluated only when an action is 
+		called. 
+		This chain of hypothetical RDDs are what is called a lineage graph.
+	5. Actions:
+		An action is any RDD operation that does not produce an RDD as an output.
+		# count of data, finding min or max, returning first element of an RDD, etc.
+		It is the cue to the compiler to evaluate the lineage graph and return the value 
+		specifed by the Action.
+	6. Lineage graph:
+		Summarizing from Transformations and Actions, a lineage graph outlines what is 
+		called a 'logical execution plan'. That means, that the compiler begins with the 
+		earliest RDD which are independent of any other RDDs, and follows a logical 
+		chain of Transformations until it ends with the RDD that an Action is called on. 
+		This feature is primarily the reason for Spark's fault tolerance. If a node 
+		fails, all the information about what the node was can be derived from the 
+		lineage graph and replicated elsewhere.  (fig 1.2)
+	7. Spark applications and jobs
+		There is a lot of nitty gritty when it comes to how a processing engine like 
+		Spark actually executes processing tasks on a distributed system. The following 
+		will give a working understanding of what certain snippets of Spark code do. 
+		
+		In spark, when an item of processing has to be done, there is a 'driver' process 
+		that is in charge of taking the user's code and converting it into a set of 
+		multiple tasks. 
+		There are also 'executor' processes, each operating on a seperate node on a 
+		cluster, that are in charge of running the tasks as delegated by the driver.
+		Each driver process has a set of executors that it has access to in order to run 
+		tasks. (fig 1.3)
+		
+		A spark application is a user built program that consists of a driver and that 
+		driver's associated executors. A spark job is the task or set of tasks to be 
+		execute by the executors as directed by the driver. A job is trigerred by the 
+		calling of an RDD action. 
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		

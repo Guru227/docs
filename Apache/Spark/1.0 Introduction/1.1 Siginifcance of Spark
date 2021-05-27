@@ -1,0 +1,45 @@
+--- 1.1 Understanding the significance of Spark ---
+
+
+Key differences between Spark and MapReduce:
+	-Spark supports Java, Python, and Scala; MapReduce only Java
+	-Spark keeps things in memory; MapReduce in and out of disk.
+		Advn of MapReduce: if it's a (hour) long job, easy restart on failure
+		Advn of Spark: much quicker on small tasks like Hive SQL retrievals
+	-Easier to develop for spark
+	-Spark supports Lazy evaluation:
+		Puts away processing until result is requested. Principle behind it is that 
+		sometimes, the work isn't required.
+	Note:
+	MapReduce takes more number of lines of code, making maintainance more difficult in the 
+	long run. And making MapReduce avoid overusing resources is quite difficult, all of which 
+	is abstracted by Spark to higher level. Spark describes how you want to process data, not 
+	how you want the execution to run, and then spark does its thing on your behalf to try 
+	and run it as eefficiently as possible.
+	-Spark also has libraries for machine learning, streaming, graph programming and SQL, not
+	requiring you to download additional libraries.
+
+Developing an application for Spark:
+	- Spark is a set of libraries and can choose to develop using Java, Python or Scala.
+	- Scala is better designed to work with Spark and it offers the greatest reduction in the 
+	numebr of lines of code. Design methodology of spark is most congruent with scala.
+	- Scala also compiles down to the same bytecode that JVm executes, so any existing Java 
+	code can be used by Scala.
+
+Note:
+	Spark does not replace Hadoop. You still need a single data layer, preferably one that is
+	hyper-scalable and extremely fast, and that's where MapR come in. MapR makes Spark 
+	faster, more scalable and more reliable.
+
+Use Cases:
+	Databricks (a company founded by the founders of Spark) lists:
+	1. data integration and ETL 
+		(Extract, Transform and Load - 3 database functions that are combined into one to 
+		pull data out of one database and pace in into another database)
+	2. Interactive analytics or business intelligence
+	3. High performance batch computing
+	4. Machine learning and advanced analytics
+	5. real-time stream processing
+
+
+https://mapr.com/blog/5-minute-guide-understanding-significance-apache-spark/

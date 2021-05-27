@@ -1,0 +1,229 @@
+--- 1.6 RDD Operations - Transformations ---
+
+Transformation is a function that produces new RDD from the existing RDDs but when we want to 
+work with the actual dataset, at that point Action is performed. When the action is trigerred 
+after the result, new RDD is not formed like tranformation. RDD supports two types of 
+operations: Transformations and Actions.
+
+RDD Tansformations:
+	RDD transformation is a function that produces new RDD from the existing RDDs. It takes 
+	RDD as input and produces one or more RDD as output, constructing an immutable lineage 
+	graph (a DAG).
+	Transformations are lazy in nature. Two most basic types of transformations are map() 
+	and filter().
+	After the transformation, the resutant RDD is always different from its parent RDD. It 
+	can be smaller (filter, count, distinct, sample), bigger (flatMap, union, Cartesian) 
+	or the same size. There are two types of transformations:
+	1. Narrow transformation: 
+		In narrow transformation, all the elements that are required to comupte the 
+		reccords in single partition live in the single partition of parent RDD. A 
+		limited subset of partition is sued to calculate the result. #Map(), filter()
+		(Fig 1.6)
+	2. Wide Transformation:
+		The elements of the parent RDD which are required to compute the records 
+		of a single partition live in multiple partitions of the parent RDD. 
+	
+Some RDD Traasformations with examples
+1. map(func): Narrow
+Converts each element of the source RDD into a single element of the result RDD by applying 
+a function. It also provides us the flexibility of having different input and return types.
+	
+	spark_test.txt:
+		hello...user! this file is created to check the operations of spark.
+	
+	example:
+		import org.apache.spark.SparkContext
+		import org.apache.spark.SparkConf
+		import org.apache.spark.sql.SparkSession
+		object mapTest {
+			def main(args: Array[string]) = {
+				val spark = SparkSession.builder
+							 .appName("mapExample")
+							 .master("local")
+							 .getOrCreate()
+				val data = spark.read.textFile("spark_text.txt").rdd
+				val mapfile = data.map(line => (line, line.length))
+				mapFile.foreach(println)
+			}
+		}
+	
+The above code maps each line of the file with its length.
+	
+2.flatMap(func): Narrow
+map and flatmap are similar in the fact that they take each line from input RDD and 
+apply a function on that line. The difference is that map returns only one statement, 
+while flatMap can return a list of elements.
+	
+	example:
+		val data = spark.read.textFile("spark_text.txt").rdd
+		val flatMapFile = data.flatMap(lines => lines.split(" "))
+		flatMapFile.foreach(println)
+		
+The above code splits each line when a space occurs.
+	
+3. filter(func): Narrow
+Returns only the elements which meet a certain predicate.
+	
+	example:
+		val data = spark.read.textFile("spark_test.txt").rdd
+		val mapFile = data.flatMap(lines => lines.split(" "))
+				   .filter(value => value=="spark")
+		println(mapFile.count())
+		
+The above code counts the number of values in mapFile after filtering for 'spark'.
+	
+4.mapPartitions(func): Narrow
+Converts each partition of the source RDD into multiple elements of the result (possibly none).
+It runs seperately on each partition of the RDD.
+Returns a new RDD by applying a function to each partition of this RDD.
+5. mapPartitionWithIndex(func): Narrow
+MapPartitionsWithIndex is similar to mapPartitions, except that it takes one more argument as input, which is the index of the partition.
+
+6. union(dataset): narrow
+Elements of both RDD in resultant RDD. Key rule of this function is that the two RDD's 
+should be of the same type.
+	
+	example:
+		val rdd1 = spark.sparkContext.parallelize( Seq((1, "jan", 2016),
+								 (3, "nov", 2014),
+								 (16, "feb", 2014)) )
+								 
+		val rdd2 = spark.sparkContext.parallelize( Seq((5, "dec", 2014),
+								 (17, "sep", 2015)) )
+								 
+		val rdd3 = spark.sparkContext.parallelize( Seq((6, "dec", 2011),
+								 (16, "may", 2015)) )
+		val rddUnion = rdd1.union(rdd2).union(rdd3)
+		rddUnion.foreach(Println)
+
+The above code performs set operation union on the RDDs and prints each row.
+
+7. intersection(dataset)
+common elements between both RDDs.
+
+	example:
+		val rdd1 = spark.sparkContext.parallelize( Seq((1, "jan", 2016),
+								 (3, "nov", 2014),
+								 (16, "feb", 2014)) )
+								 
+		val rdd2 = spark.sparkContext.parallelize( Seq((5, "dec", 2014),
+								 (17, "sep", 2015)) )
+								 
+		val rddIntersection = rdd1.intersection(rdd2)
+		rddIntersection.foreach(Println)
+
+Above code prints the intersection between rdd1 and rdd2.
+
+8. distinct()
+removes duplicates and returns set of data. works like set() in python.
+
+	example:
+		val rdd1 = spark.sparkContext.parallelize( Seq((1,"jan",2016),
+								 (3,"nov",2014),
+								 (16,"feb",2014),
+								 (3,"nov",2014)) )
+    		val result = rdd1.distinct()
+    		println(result.collect().mkString(", "))
+    
+Above code removes duplicate (3, "nov", 2014) and prints 3 elements.
+
+9. groupByKey()
+When used on a dataset of (K, V) pairs, that data is shuffled accroding to the key value K 
+in another RDD. Spark provides the provision to save data to disk if more data is shuffled 
+onto a single executor machine than can fit in memory.
+
+	example:
+		val data = spark.sparkContext.parallelize( Array( ('k',5),
+		    							('s',3),
+		    							('s',4),
+		    							('p',7),
+		    							('p',5),
+		    							('t',8),
+		    							('k',6)), 3)
+		val group = data.groupByKey().collect()
+    		group.foreach(println)
+    		
+groupby will group the integers on the basis of same key (alphabet). After that collect() 
+action will return all the elements of the dataset as an array.
+
+10. reduceByKey(func, [numOfTasks])
+The (K, V) pairs are first combined on each node before shuffling between nodes.
+
+	example:
+		val words = Array ("one", "two", "two", "four", "five", "six", "six", "eight",
+					"nine", "ten")
+		val data = spark.sparkContext.parallelize(words)
+					      .map(w => (w, 1))
+					      .reduceByKey(_+_)
+
+Code will parallelize each string, then will map it into a tuple with count 1, finally 
+reduceByKey will merge the count of values having simiar keys.
+
+11. sortByKey()
+sort key-value pairs according to the key K in another RDD.
+	
+	example:
+		val data = spark.SparContext.parallelize( Seq(("maths", 52), 
+								("english", 75),
+								("science", 82),
+								("computer", 65),
+								("maths", 85)) )
+		val sorted = data.sortByKey()
+		sorted.foreach(println)
+		
+The above key sorts the data into Ascending order of key.
+
+12. join()
+join in database combines the fields from two tables using common values. In spark, join is 
+defined on key value tuples, where the values are joined based on keys.
+
+	example:
+		val data1 = spark.SparkCOntext.parallelize( Array(('A', 1),
+								    ('b', 2),
+								    ('c', 3)) )
+		val data2 = spark.SparkCOntext.parallelize( Array(('A', 4),
+								    ('A', 6),
+								    ('b', 7),
+								    ('c', 3),
+								    ('c', 8)) )
+		val result = data1.join(data2)
+		println(result.collect().mkstring(", "))
+		
+The join operation will join the two different RDDs on the basis of Key.
+
+13. Coalesce(numPartitions)
+Coalesce is used t oreduce the number of working partitions of data, done towards reducing 
+the amount of shuffle between partitions.
+
+	example:
+		val rdd1 = spark.sparkContext.parallelize(Array("jan",
+								  "feb",
+								  "mar",
+								  "april",
+								  "may",
+								  "jun") ,3)
+		val result = rdd1.coalesce(2)
+
+Coalesce will decrease the number of partitions to the value of argument passed to it.
+
+
+Sources:
+1. Main source
+https://data-flair.training/blogs/spark-rdd-operations-transformations-actions/
+
+2. map vs mapPartitions
+https://stackoverflow.com/questions/21185092/apache-spark-map-vs-mappartitions
+
+3. mapPartitionsWithIndex
+https://data-flair.training/forums/topic/explain-the-mappartitions-and-mappartitionswithindex/
+https://stackoverflow.com/questions/33655920/when-to-use-mapparitions-and-mappartitionswithindex
+
+
+	
+	
+	
+	
+	
+	
+	
+	

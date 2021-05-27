@@ -1,0 +1,37 @@
+--- Lazy Evaluation ---
+
+Priniciple: Some expressions are not worth evaluating because they are not used at all.
+
+A compiler is said to be 'lazy' if it postpones evaluation until the moment until it's result is 
+required. For lazy evaluation to be efficient, it uses memoization. In other words, it keeps a 
+dictionary where the key is the name of the variable, and the value is the result of the 
+evaluation. When it encounters an already evaluated variable, it can simply look up the value in 
+the dictionary.
+
+Note: Referentially transparent functions gives the same output irrespective of when it was called 
+for the same inputs. Ex. mul(6, 3) = 18, irrespective of when it was called. Such functions can be 
+memoized, that is function and input can be mapped to output, without having to recompute every 
+time. Referrentially opaque functions are constantly changing, like the current time function. (1!)
+
+Lazy evaluation provides performance benefits, short circuiting logical expressions, and ability 
+to work with infinite lists.
+
+In regular compiler, an infinite list will cuase the program to crash because the computer will 
+try to evaluate all of the list eagerly, eventually running out of memory. On the other hand, lazy 
+compilers evvaluate only what is absolutely necessary. So if a recursive function call summing up 
+the elements of an integer list is called, then with each recursion, yet another memo is made in 
+the dictionary, and thus will go on for ever without crashing.
+
+The use of inifinite lists is in making use of parts of it, and can be used to define ranges, 
+sequences, cycles, consecutive dictionary keys, input streams and other helpful concepts.
+
+Languages supporting lazy evaluation and usually functional programming languages like Haskell. 
+This is because its difficult to write an imperative OOP-style compiler.
+
+Lazy evaluation is performant and correct only when correctly mixed with referentail transparency. 
+If the state of your variables is constantly changing, you can forget about memoization and 
+suddenly lazy evaluation becomes slower than doing it eagerly.
+
+(1!) - https://programmingwords.com/home/referential-transparency
+
+https://medium.com/background-thread/what-is-lazy-evaluation-programming-word-of-the-day-8a6f4410053f

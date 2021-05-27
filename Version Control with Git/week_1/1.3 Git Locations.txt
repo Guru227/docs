@@ -1,0 +1,12 @@
+--- Git Locations ---
+
+There are multiple places of data store in Git. The 4 important places are:
+	1. Working Tree - location on yout computer that contains the directories
+and files of a single commit. This is where you can edit and view files preparing 
+for next commit.
+	2. Staging Area/Index - lists of files that are planned for next commit
+	3. Local Repository - Contains all commits of the project
+NOTE: The working tree and the .git file (which contains the staging area and 
+the local repository) form what is called the project directory.
+	4.Remote Repository - Often hosted on the cloud or a datacentre and is 
+the official state of the project.

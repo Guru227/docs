@@ -1,0 +1,42 @@
+--- 1.7 RDD Operations - Actions ---
+
+Transformations create RDDs from each other, but when we want to work with the actual dataset, 
+actions are utilised. Actions do not create new RDDs but return values. These return values 
+are stored in drivers, or in the external storage system.
+An action is one of the ways of sending data from executor to driver.
+
+RDD actions with examples:
+
+1. count() 		- returns the number of elements in RDD
+2. collect()		- returns entire RDD content to driver
+			- used in unit testing
+			- constraint that all data must fit into driver
+3. take(n)		- returns n number of elements form RDD
+			- tries to reduce the number of partitions it accesses - biased sample
+4. top(n)		- using defaul ordering of data, will return top n elements
+5. countByValue()	- returns a hashmap of (K, int) pairs with the count of each key
+6. reduce() 		- takes two element at a time from the input RDD and then produces 
+			  an output of the same type as the input elements.
+			- Accepts commutative and associative operations as an argument.
+			# addition, count the number of words.
+7. fold()		- fold works like reduce, but also accepts zero or empty collection
+			- condition: zero-value condition must be identity element of that 
+				     operation
+			- syntax: rdd.fold(0)((x, y) => x + y), 0 is the initial value
+8. aggregate()		- grants the user flexibility to output a differnt type compared to 
+			  input type
+			- first function is used for combining RDD with accumulators
+			- second function is used for combining accumulators.
+			- initial value can also be supplied.
+9. foreach()		- when we want to apply a function on each element of RDD, but do not 
+			  want it to return a value to the driver
+			  
+			  
+			  
+References:
+
+1. Main source
+	https://data-flair.training/blogs/spark-rdd-operations-transformations-actions/
+
+2. aggregate example
+	https://sparkbyexamples.com/apache-spark-rdd/spark-rdd-aggregate-function-example/

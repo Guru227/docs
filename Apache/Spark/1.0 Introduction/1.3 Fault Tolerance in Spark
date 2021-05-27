@@ -1,0 +1,16 @@
+--- 1.3 Fault tolerance in Spark ---
+
+
+Fault tolerance revolves around Spark's RDD (Resilient Distributed Datasets). Spark maintains a 
+Directed Acyclic Graph (DAG) whose nodes depict the intermediate results from each transformation.
+Any time your job fails, the DAG is rerun from the nearest node to failure to recompute the RDD.
+But as your DAG grows, you can checkpoint your RDD, in case it fails. Checkpoint is a technique 
+where you store your RDD in at the file level unlike persist/cache operations. Note that, the 
+current RDD should be cached before making a checkpoint, without which Spark will re-run the 
+entire RDD from its beginning. Upon cachig, the cache is transferred into memory. Thus, upon 
+failure, spark will simply load the latest checkpoint and you will have a fault tolerant system.
+
+Now that Spark is fault tolerant at Resource management, it can achieve it at Master level too by using ZooKeeper. 
+
+
+https://www.quora.com/How-is-fault-tolerance-achieved-in-Apache-Spark

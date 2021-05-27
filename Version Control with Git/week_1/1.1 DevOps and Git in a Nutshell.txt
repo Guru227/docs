@@ -1,0 +1,26 @@
+--- DevOps and Git in a Nutshell ---
+
+1. Continuous improvement
+Key priniciple of DevOps is continuously plan, build and release small improvements
+to your product, in contrast to a waterfall approach (released as a batch).
+This is the reason for continuous improvements (bug fixes and feature releases).
+
+2. Managing Project Versions
+Commits (versions) form a project history and is an entire snapshot of the project.
+Commits remember only that which has been modified. Each unique file is stored only once.
+Commits (versions) can be reviewed and undo-ed.
+
+3. Branches
+All commits belong to a branch.
+A branch is an independent line of development.
+Default main branch AKA master.
+Uses:
+	Does not disrupt master branch stability.
+	Branch independence 
+		- allows teams to work on seperate, mutually-exclusive development
+
+4. Pull Requests
+Branches can be merged into master branch (or any other branch).
+Request to merge AKA pull request.
+	Team members can discuss, review, and approve changes
+	Pass automated tests

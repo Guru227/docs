@@ -1,0 +1,19 @@
+--- 1.2 Database terminologies: partitioning ---
+
+Database tables can be partitioned in two ways:
+1. Vertical partitioning:
+	Stores tables and/or columns in seperate tables/databases.
+2. Horizontal partitioning (sharding):
+	Stores rows of a table in multiple database clusters, making it easier for cluster 
+	computing (distributed computing). Sharding is needed if a dataset is too large to be 
+	stored in a single DB. Most importantly, sharding allows a DB to scale in line with its 
+	data growth. It also reduces table size (index size more specifically) which improves 
+	performance.	
+Pros:
+	Scalability (same code can now be utilised for unlimited number of shards, irrespective of 
+	how many are there), increased speed for large database
+Cons:
+	Makes programming and operations more convoluted
+
+
+https://towardsdatascience.com/database-terminologies-partitioning-f91683901716

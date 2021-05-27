@@ -1,0 +1,20 @@
+--- Git Overview ---
+
+1. Version Control Overview
+	Content - complete history of the project is tracked and available at any time
+		- usually text-based content (source code)
+		- automated testing
+		ex. server configuration, documentation, books, websites
+	Team support - supports different workflows, facilitates collaboration, communication and reviews
+	Agility - allows making small changes, and easily test, fix or undo changes
+Distributed Version Control System (DVCS)
+	Each user has a local repository of the remote repository (official state).
+	Users can work offline
+	Repos are sync by pull and push.
+
+2. Git Overview
+Git <- DVCS
+Git <- Open Source Software (OSS)
+Contains a series of commits.
+
+3. Command Line vs UI

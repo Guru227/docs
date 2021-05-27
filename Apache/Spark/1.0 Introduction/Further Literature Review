@@ -1,0 +1,33 @@
+--- Further Literature Review ---
+
+
+Incomplete chain
+1. Tungsten Encoders
+	1.5 Comparing RDD, Dataframes and datasets
+	Line No:  95 - 100
+2. Catalyst Optimization
+	1.5 Comparing RDD, Dataframes, and Datasets
+	Line no: 88 - 94
+3. join()
+	1.6 RDD Operations - Transformations
+	Line no: 177, 178
+4. top()
+	1.7 RDD Operations - Actions
+	Line no: 16
+5. reduce()
+	1.7 RDD Opertaions - Actions
+	Line no: 18 - 21
+	Comments: Then does reduce in MapReduce works by first mappinng it into partitions, 
+		  and then running reduce on each partition?
+		   
+Further Reading:
+1. Internals of Apache Spark
+	https://books.japila.pl/apache-spark-internals/apache-spark-internals/index.html
+
+2. Caching and persistence mechanism in Spark
+	https://data-flair.training/blogs/apache-spark-rdd-persistence-caching/
+	
+3. Visualisation of actions and tranformations
+https://training.databricks.com/visualapi.pdf
+
+
