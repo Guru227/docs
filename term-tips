@@ -1,0 +1,21 @@
+# search packages using apt
+
+to search global repo
+`apt search [keyword]`
+
+to search local repo
+`apt file-search [keyword]`
+
+to search within man page
+1. open man page
+2. type regex beginning with `/`
+3. use `n` and `p` to navigate between matches
+4. `esc` to end match or `/` to start a nwe regex
+
+you can do a lot more stuff like testing a command with the man page and searching commands you do not know the name of.
+
+
+
+
+TODO:
+set paths for sudo user

@@ -1,0 +1,12 @@
+# setting up git
+you need to set username and email
+
+`git config --global user.name "<yourName>"`
+`git config --global user.email "<yourEmailID>"`
+
+# to store your password, the git credentials manager comes in handy
+here I enable it globally
+
+`git config --global credential.helper store`
+
+After enabling it globally, the first time you pull or push from remote Git, you will be asked for a username and password, after which you will not.
