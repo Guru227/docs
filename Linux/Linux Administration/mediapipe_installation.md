@@ -120,7 +120,9 @@ The second successful compilation onwards you don't see "Hello World". Just a
 
 ## Set /opt permissions
 
-
+Since the entire installation was carried out as the root user, the user who is 
+going to be using it must have sudo privileges. Without this, the user may be 
+unable to run mediapipe.
 
 
 ## Sources
@@ -138,3 +140,5 @@ The second successful compilation onwards you don't see "Hello World". Just a
 1. (Installing Mediapipe) https://google.github.io/mediapipe/getting_started/install.html
 
 1. (To try: install python3.7 using a ppa repository) https://askubuntu.com/questions/682869/how-do-i-install-a-different-python-version-using-apt-get
+
+1. (Limiting RAM and CPU Resources) https://stackoverflow.com/questions/49166562/using-bazel-to-build-tensorflow-serving-from-source-meets-error-c-compilation and https://github.com/tensorflow/tensorflow/issues/349 and https://github.com/bazelbuild/rules_nodejs/issues/1614
