@@ -4,6 +4,6 @@
 
 There are two ways of going about this.
 1. Install wordpress on a server machine
-1. Use a server configured with bitnami
+1. Use a server configured with bitnami on aws
 
 
