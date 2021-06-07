@@ -71,6 +71,13 @@ Then, restart the sshd service:
 
 As a precaution, ssh through another terminal and ensure it is working.
 
+## Starting/restarting/enabling the ssh server
 
-## Sources
+1. `sudo systemctl [start|restart|stop|status|enable|disable] ssh`
+
+1. check if server is running - `sudo systemctl status ssh`
+
+# Sources
 1. (SSH-based authentication) https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys-on-ubuntu-1604#:~:text=1%20Create%20the%20RSA%20Key%20Pair.%20By%20default,you%20have%20successfully%20configured%20SSH-key-based%20authentication%20to%20
+
+1. (starting/restarting/enabling the ssh server) https://www.simplified.guide/ssh/restart-service#:~:text=How%20to%20start%2C%20restart%20and%20stop%20SSH%20service,service%20command%20%20%20service%20ssh%20%5Bstart%7Crestart%7Cstop%7Cstatus%5D%20
