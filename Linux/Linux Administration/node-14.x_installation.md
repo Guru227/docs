@@ -20,7 +20,7 @@ deb-src https://deb.nodesource.com/node_14.x focal main
 
 ## Install the repository
 
-`sudo apt -y install nodejs`
+`sudo apt-get -y install nodejs`
 
 Verify the installation
 

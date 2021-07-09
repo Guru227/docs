@@ -250,4 +250,4 @@ similar.
 
 1. (Enabling Proxy Mode - ProxyPass error) https://serverfault.com/questions/715905/why-am-i-getting-an-invalid-command-proxypass-error-when-i-start-my-apache-2
 
-1.(Securing nginx with Let's Encrypt) https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-20-04
+1. (Securing nginx with Let's Encrypt) https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-20-04

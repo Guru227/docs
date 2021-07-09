@@ -1,0 +1,21 @@
+# Convert Python Notebooks to Python Scripts
+
+## Installing requirements and converting notebooks to scripts
+
+1. Install ipython libraries and nbconvert
+
+    `pip3 install ipython nbconvert`
+
+1. Run the following command to convert the python notebooks into python Scripts 
+
+    It can also be converted to all these formats: ['asciidoc', 'custom', 'html', 
+    'latex', 'markdown', 'notebook', 'pdf', 'python', 'rst', 'script', 'slides', 
+    'webpdf']
+
+    `jupyter nbconvert *.ipynb --to python`
+
+    NOTE: `ipython nbconvert` has been deprecated
+
+## Sources
+
+1. (Convert ipynb to py) https://medium.com/@researchplex/the-easiest-way-to-convert-jupyter-ipynb-to-python-py-912e39f16917

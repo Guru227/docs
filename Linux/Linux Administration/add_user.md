@@ -1,7 +1,7 @@
 # User Administration in Ubuntu
 
 ## Create user
-> ``` add user <username> ```
+> ``` adduser <username> ```
 
 Upon running this, the creation of a user with the username will begin. You must 
 then enter and re-enter the ***password*** of the user. Then, input any details of the 
@@ -37,6 +37,10 @@ Type in the password when prompted for it.
     terminate the processes without cleaning up.
 
     `killall -9 -u`
+
+    OR
+
+    `killall --user <username>`
 
 1. Backup user data using tar (Optional)
 
@@ -80,3 +84,5 @@ and by accessing the `/root` directory which normally requires sudo permissions
 1. (remove user) https://linoxide.com/how-delete-remove-user-ubuntu/#:~:text=How%20to%20Delete%20%28Remove%29%20a%20User%20on%20Ubuntu,or%20erasing%20user%20accounts%20from%20the%20system.%20
 
 1. (add user to sudo group) https://phoenixnap.com/kb/how-to-create-sudo-user-on-ubuntu
+
+1. (kill all processes of user) https://unix.stackexchange.com/questions/35131/kill-all-process-of-particular-user-in-ubuntu
