@@ -188,7 +188,7 @@ After saving and closing the file, reload (not restart) apache
 Create a new file `/var/www/<domain_name>/info.php` with the following contents.
 
 ```
-<?
+<?php
 phpinfo()
 ?>
 ```
